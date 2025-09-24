@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Request, Response } from 'express';
 import { join } from 'path';
 import * as UAParser from 'ua-parser-js';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller()
 export class AppController {
@@ -16,10 +17,10 @@ export class AppController {
     return 'Hello World!';
   }
 
-  // @Cron(CronExpression.EVERY_30_SECONDS)
-  // async continueRequest() {
-  //   await axios('https://yukatahouse.onrender.com/hello');
-  // }
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  async continueRequest() {
+    await axios('https://breatheease.onrender.com/hello');
+  }
 
   @Get('/getConst')
   getConst(@Res() res: Response) {
