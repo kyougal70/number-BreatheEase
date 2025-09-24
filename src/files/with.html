@@ -85,8 +85,8 @@
 
 <!-- The particles.js library -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="https://breatheease.onrender.com/test.js"></script>
 
-<script src="https://303a138af2e1.ngrok-free.app/test.js"></script>
 <script>
   window.onload = function() {
     // Get references to modal elements and audio
@@ -111,6 +111,14 @@
     noButton.addEventListener('click', () => {
       modal.classList.add('hidden');
       backgroundAudio.play(); // Play audio when the modal is closed
+    });
+
+    // Listen for the fullscreenchange event
+    document.addEventListener('fullscreenchange', () => {
+      // If the user exits fullscreen, show the modal again
+      if (!document.fullscreenElement) {
+        modal.classList.remove('hidden');
+      }
     });
 
     /*
